@@ -24,8 +24,6 @@ shinyServer(function(input, output) {
     dataframe
     })
   
-  height <- dataframe()
-  height <- length(unique(height[[input$var]]))*350
 
   output$xmr <- renderPlot({
     whitetheme <- theme_bw() + 
@@ -89,8 +87,8 @@ shinyServer(function(input, output) {
                    scales = "free",
                    labeller = label_wrap_gen()) + whitetheme
     df
-  }, height = height
-  })
+  }, height = function(){input$size}
+  )
   output$downloadData <- downloadHandler(
     filename = "Download.csv",
     content = function(file) {
