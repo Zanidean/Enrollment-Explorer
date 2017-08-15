@@ -66,20 +66,23 @@ shinyServer(function(input, output) {
                   linetype = "dashed", 
                   na.rm = T) +
         geom_line(aes(y = dataframe[[input$measure]])) + 
+        ggrepel::geom_label_repel(aes(y = dataframe[[input$measure]]),
+                                label = format(
+                                  round(dataframe[[input$measure]]), 
+                                  nsmall=0, big.mark=","),
+                                size = 6,
+                                label.padding = unit(0.2, "lines"),
+                                label.r = unit(0, "lines"),
+                                label.size = 0.15,
+                                box.padding = unit(1, "lines"),
+                                fill = "#ffffff") +
         geom_point(aes(y = dataframe[[input$measure]]), 
                    size = 5.55, 
                    color = "#000000") +
         geom_point(aes(y = dataframe[[input$measure]]), 
                    size = 4.5, 
                    color = "#7ECBB5") +
-        ggrepel::geom_label_repel(aes(y = dataframe[[input$measure]]),
-                  label = round(dataframe[[input$measure]]),
-                  size = 6,
-                  label.padding = unit(0.2, "lines"),
-                  label.r = unit(0, "lines"),
-                  label.size = 0.15,
-                  box.padding = unit(1, "lines"),
-                  fill = "#ffffff") +
+
         guides(colour=FALSE) +   
         #ggtitle(input$var) + 
         facet_wrap(~dataframe[[input$var]],
