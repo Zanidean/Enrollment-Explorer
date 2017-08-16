@@ -30,8 +30,6 @@ shinyUI(fluidPage(theme = "www/paper_modified.css",
                               "Province", "Provider Location")),
                  checkboxInput("offshores", "Remove offshores", value = T),
                  checkboxInput("cs", "Remove continuing studies", value = T),
-                 sliderInput("size", "Height of Charts",
-                             min = 300, max =3000, value = 850),
                  downloadButton('downloadData', 'Download Data'),
     width = 2),
   
