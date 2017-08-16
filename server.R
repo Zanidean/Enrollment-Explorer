@@ -5,6 +5,7 @@ library(ggrepel)
 
 shinyServer(function(input, output) {
   
+  
   dataframe <- reactive({
     
     df <- get_enrolment(input$measure, input$var, input$inst, 
