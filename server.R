@@ -1,6 +1,7 @@
 library(shiny)
 library(sRa)
 library(air)
+library(ggrepel)
 
 shinyServer(function(input, output) {
   
@@ -64,14 +65,15 @@ shinyServer(function(input, output) {
                   linetype = "dashed", 
                   na.rm = T) +
         geom_line(aes(y = dataframe[[input$measure]])) + 
-        geom_label(aes(y = dataframe[[input$measure]]),
+        ggrepel::geom_label_repel(aes(y = dataframe[[input$measure]]),
                                 label = format(
                                   round(dataframe[[input$measure]]),
                                   nsmall=0, big.mark=",", trim = T),
                                 size = 6,
                                 label.padding = unit(0.3, "lines"),
                                 label.r = unit(0, "lines"),
-                                label.size = 0.15, nudge_y = 40
+                                label.size = 0.15, 
+                                point.padding = unit(0.5, "lines")
                                 ) +
         geom_point(aes(y = dataframe[[input$measure]]), 
                    size = 5.55, 
