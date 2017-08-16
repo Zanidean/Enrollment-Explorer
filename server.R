@@ -84,11 +84,10 @@ shinyServer(function(input, output) {
         geom_label(aes(y = dataframe[[input$measure]]),
                 label = format(
                   round(dataframe[[input$measure]]),
-                  nsmall = 0, big.mark = ",", trim = F),
+                  nsmall = 0, big.mark = ",", trim = T),
                 size = 6,
                 label.r = unit(0.15, "lines"),
-                label.size = 0.15, 
-                nudge_x = 0.35) +
+                label.size = 0.15, nudge_x = 0.32) +
         guides(colour = FALSE) +   
         #ggtitle(input$var) + 
         facet_wrap(~dataframe[[input$var]],
