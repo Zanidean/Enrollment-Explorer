@@ -1,15 +1,13 @@
 library(shiny)
 library(sRa)
 library(air)
-library(ggrepel)
 
-shinyUI(fluidPage(
-  
+shinyUI(fluidPage(theme = "www/paper_modified.css",
   titlePanel("Enrolment Explorer"),
   tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, 
                   .js-irs-0 .irs-bar {background: #7ECBB5}")),
   sidebarLayout(
-    sidebarPanel(style = "max-height: 900px; position:relative;",
+    sidebarPanel(style = "max-height: 800px; position:relative;",
                  selectInput("measure", "Measure", 
                              choices = c("Unique Student Static", "FLE")),
                  selectInput("inst", "Institution", 
@@ -29,7 +27,7 @@ shinyUI(fluidPage(
                               "Session", 
                               "Current Status", 
                               "Source Country",
-                              "Province")),
+                              "Province", "Provider Location")),
                  checkboxInput("offshores", "Remove offshores", value = T),
                  checkboxInput("cs", "Remove continuing studies", value = T),
                  sliderInput("size", "Height of Charts",

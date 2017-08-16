@@ -1,7 +1,6 @@
 library(shiny)
 library(sRa)
 library(air)
-library(ggrepel)
 
 shinyServer(function(input, output) {
   
@@ -29,11 +28,10 @@ shinyServer(function(input, output) {
     whitetheme <- theme_bw() + 
       theme(strip.background = element_rect(fill = NA, linetype = 0), 
             panel.border = element_rect(color = NA), 
-            panel.spacing.y = unit(4, "lines"), 
-            panel.spacing.x = unit(2, "lines"), 
+            panel.spacing.y = unit(5.5, "lines"), 
+            panel.spacing.x = unit(6, "lines"), 
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_line(colour = "#fff2f2"),
-
             axis.text.y =  element_blank(),
             axis.title.y = element_blank(),
             axis.ticks.y = element_blank(), 
@@ -58,24 +56,23 @@ shinyServer(function(input, output) {
                   na.rm = T) +
         geom_line(aes(y = `Lower Natural Process Limit`), 
                   color = "#d02b27",
-                  size = 1.05, 
+                  size = 1, 
                   linetype = "dashed", 
                   na.rm = T) +
         geom_line(aes(y = `Upper Natural Process Limit`), color = "#d02b27",
-                  size = 1.05, 
+                  size = 1, 
                   linetype = "dashed", 
                   na.rm = T) +
         geom_line(aes(y = dataframe[[input$measure]])) + 
-        ggrepel::geom_label_repel(aes(y = dataframe[[input$measure]]),
+        geom_label(aes(y = dataframe[[input$measure]]),
                                 label = format(
-                                  round(dataframe[[input$measure]]), 
-                                  nsmall=0, big.mark=","),
+                                  round(dataframe[[input$measure]]),
+                                  nsmall=0, big.mark=",", trim = T),
                                 size = 6,
-                                label.padding = unit(0.2, "lines"),
+                                label.padding = unit(0.3, "lines"),
                                 label.r = unit(0, "lines"),
-                                label.size = 0.15,
-                                box.padding = unit(1, "lines"),
-                                fill = "#ffffff") +
+                                label.size = 0.15, nudge_y = 40
+                                ) +
         geom_point(aes(y = dataframe[[input$measure]]), 
                    size = 5.55, 
                    color = "#000000") +
