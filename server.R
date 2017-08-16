@@ -52,14 +52,22 @@ shinyServer(function(input, output) {
             axis.text.x = element_text(colour = "#000000", size = 17),
             axis.title.x = element_text(size = 20, face = "bold"),
             strip.text = element_text(size = 20),
-            title = element_text(size = 25))
+            title = element_text(size = 20))
     
+    measure <- gsub("\\-", " ", input$measure)
+     
     dataframe <- dataframe() %>% 
       group_by_(.dots = c(lapply(c(input$var), as.symbol))) %>% 
-      do(xmR(., input$measure, recalc = T)) %>%
+      do(xmR(., measure, recalc = T)) %>%
       # mutate(`Academic Year` = gsub("^.*?-", "", `Academic Year`),
       #        `Academic Year` = as.numeric(`Academic Year`))
       mutate(`Academic Year` = gsub("-20", "-", `Academic Year`))
+    
+    # dataframe$Colour <- 0
+    # if(any(dataframe[[input$measure]] > dataframe$`Upper Natural Process Limit`,
+    #        dataframe[[input$measure]] < dataframe$`Lower Natural Process Limit`)){
+    #   dataframe$Colour <- 1
+    # }
       
     df <- ggplot(dataframe,
                aes(`Academic Year`, 
@@ -78,23 +86,23 @@ shinyServer(function(input, output) {
                   size   = 1, 
                   linetype = "dashed", 
                   na.rm  = T) +
-        geom_line(aes(y  = dataframe[[input$measure]])) + 
-        geom_point(aes(y = dataframe[[input$measure]]), 
+        geom_line(aes(y  = dataframe[[measure]])) + 
+        geom_point(aes(y = dataframe[[measure]]), 
                    size  = 5.55, 
                    color = "#000000") +
-        geom_point(aes(y = dataframe[[input$measure]]), 
+        geom_point(aes(y = dataframe[[measure]]), 
                    size  = 4.5, 
-                   color = "#7ECBB5") +
-        geom_label_repel(aes(y = dataframe[[input$measure]]),
+                   color = "#7ECBB5") + 
+        geom_label_repel(aes(y = dataframe[[measure]]),
                 label = format(
-                  round(dataframe[[input$measure]]),
+                  round(dataframe[[measure]], 2),
                   nsmall = 0, big.mark = ",", trim = T),
                 size = 6,
                 label.r = unit(0.2, "lines"),
                 label.size = 0.15, nudge_x = 0.32) +
         guides(colour = FALSE) +   
         ggtitle(paste(input$measure,
-                       "enrollment at",
+                       "Enrolment at",
                        input$inst,
                        "by",
                        input$var, sep = " ")) + 
