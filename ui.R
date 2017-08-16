@@ -4,6 +4,7 @@ library(air)
 library(tidyverse)
 
 shinyUI(fluidPage(theme = "www/paper_modified.css",
+                  
   titlePanel("Enrolment Explorer"),
   sidebarLayout(fluid = TRUE,
     sidebarPanel(

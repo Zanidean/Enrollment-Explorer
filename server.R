@@ -8,7 +8,7 @@ shinyServer(function(input, output) {
   
   
   dataframe <- reactive({
-
+    
     df <- get_enrolment(measures = input$measure, 
                         rows = input$var, 
                         institutions = input$inst, 
@@ -102,10 +102,10 @@ shinyServer(function(input, output) {
                 label.size = 0.15, nudge_x = 0.32) +
         guides(colour = FALSE) +   
         ggtitle(paste(input$measure,
-                       "Enrolment at",
-                       input$inst,
-                       "by",
-                       input$var, sep = " ")) + 
+                       "Enrolment by",
+                       input$var,
+                       "at",
+                       input$inst, sep = " ")) + 
         facet_wrap(~dataframe[[input$var]],
                    nrow   = length(unique(dataframe[[input$var]])),
                    scales = "free",

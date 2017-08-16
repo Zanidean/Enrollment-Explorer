@@ -1,3 +1,11 @@
+.sidebar {
+    color: #FFF;
+    position: relative;
+    width: 220px;
+    white-space: nowrap;
+    overflow: visible;
+}
+
 @font-face {
   font-family: 'Arial';
   font-style: normal;
