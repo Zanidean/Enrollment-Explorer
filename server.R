@@ -8,10 +8,12 @@ shinyServer(function(input, output) {
   
   
   dataframe <- reactive({
-    
-    df <- get_enrolment(input$measure, input$var, input$inst, 
-                  remove.offshores = input$offshores,
-                  remove.continuingstudies = input$cs)
+
+    df <- get_enrolment(measures = input$measure, 
+                        rows = input$var, 
+                        institutions = input$inst, 
+                        remove.offshores = input$offshores,
+                        remove.continuingstudies = input$cs)
     
     drop <- df %>% 
       group_by_(.dots = c(lapply(c(input$var), as.symbol))) %>% 
@@ -83,15 +85,19 @@ shinyServer(function(input, output) {
         geom_point(aes(y = dataframe[[input$measure]]), 
                    size  = 4.5, 
                    color = "#7ECBB5") +
-        geom_label(aes(y = dataframe[[input$measure]]),
+        geom_label_repel(aes(y = dataframe[[input$measure]]),
                 label = format(
                   round(dataframe[[input$measure]]),
                   nsmall = 0, big.mark = ",", trim = T),
                 size = 6,
-                label.r = unit(0.15, "lines"),
+                label.r = unit(0.2, "lines"),
                 label.size = 0.15, nudge_x = 0.32) +
         guides(colour = FALSE) +   
-        #ggtitle(input$var) + 
+        ggtitle(paste(input$measure,
+                       "enrollment at",
+                       input$inst,
+                       "by",
+                       input$var, sep = " ")) + 
         facet_wrap(~dataframe[[input$var]],
                    nrow   = length(unique(dataframe[[input$var]])),
                    scales = "free",
@@ -102,10 +108,12 @@ shinyServer(function(input, output) {
     plotHeight()
     }
   )
+  
   output$downloadData <- downloadHandler(
     filename = "Download.csv",
     content = function(file) {
       write.csv(dataframe(), file)
     })
+
 })
 

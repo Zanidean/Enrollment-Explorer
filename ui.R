@@ -4,14 +4,15 @@ library(air)
 library(tidyverse)
 
 shinyUI(fluidPage(theme = "www/paper_modified.css",
-  titlePanel("Enrolment Explorer"),
-  tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, 
-                  .js-irs-0 .irs-bar {background: #7ECBB5}")),
+  titlePanel("Enrollment Explorer"),
   sidebarLayout(fluid = TRUE,
-    sidebarPanel(style = "max-height: 800px; position:relative;",
+    sidebarPanel(
                  helpText("Choose a measure, institution, and variable to visualize using XMR style charts."),
                  selectInput("measure", "\n Measure", 
-                             choices = c("Unique Student Static", "FLE")),
+                             choices = c(
+                               "Unique Headcount" = 
+                                 "Unique Student Static", 
+                               "FLE")),
                  selectInput("inst", "Institution", 
                              choices = c("Medicine Hat College" = "MH", 
                                          "Mount Royal University" = "MU", 
@@ -19,11 +20,13 @@ shinyUI(fluidPage(theme = "www/paper_modified.css",
                                          "Lethbridge College" = "LC", 
                                          "University of Lethbridge" = "UL")),
                  selectInput("var", "Variable", 
-                             choices = c("Gender", 
+                             choices = c(
+                               "Gender", 
                               "Legal Status", 
                               "Aboriginal Indicator",
                               "Year Of Study", 
-                              "Program Band", 
+                              "Program Band",
+                              "Program Name",
                               "Age Group",
                               "Level Of Study", 
                               "Session", 
@@ -34,7 +37,9 @@ shinyUI(fluidPage(theme = "www/paper_modified.css",
                  checkboxInput("cs", "Remove continuing studies", value = T),
                  submitButton("Update View", icon("refresh")),
                  helpText("Data saved does not contain XMR calculations."),
-                 downloadButton('downloadData', 'Save Data'),
+                 downloadButton('downloadData', 'Save Data', 
+                                style ="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                 #downloadButton('downloadPlot', 'Download Plot'),
     width = 2),
   
     mainPanel(
